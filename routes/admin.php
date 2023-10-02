@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\OwnersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,15 +27,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Admin/Welcome', [
-        'canLogin' => Route::has('admin.login'),
-        'canRegister' => Route::has('admin.register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'checkLogin' => Auth::guard('admin')->check(),
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Admin/Welcome', [
+//         'canLogin' => Route::has('admin.login'),
+//         'canRegister' => Route::has('admin.register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//         'checkLogin' => Auth::guard('admin')->check(),
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Admin/Dashboard');
@@ -44,6 +45,13 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::resource('owners', OwnersController::class)->middleware(['auth:admin', 'verified'])->except('show');
+
+Route::prefix('expired-owners')->middleware('auth:admin')->group(function() {
+    Route::get('index', [OwnersController::class, 'expiredOwnerIndex'])->name('expired-owners.index');
+    Route::delete('destroy/{owner}', [OwnersController::class, 'expiredOwnerDestroy'])->name('expired-owners.destroy');
 });
 
 // auth.php相当
