@@ -14,6 +14,9 @@ use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Owner\ShopController;
+use App\Http\Controllers\Owner\ImageController;
+use App\Http\Controllers\Owner\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,15 +29,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Owner/Welcome', [
-        'canLogin' => Route::has('owner.login'),
-        'canRegister' => Route::has('owner.register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'checkLogin' => Auth::guard('owners')->check(),
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Owner/Welcome', [
+//         'canLogin' => Route::has('owner.login'),
+//         'canRegister' => Route::has('owner.register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//         'checkLogin' => Auth::guard('owners')->check(),
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Owner/Dashboard');
@@ -46,12 +49,22 @@ Route::middleware('auth:owners')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::prefix('shops')->middleware('auth:owners')->group(function() {
+    Route::get('index', [ShopController::class, 'index'])->name('shops.index');
+    Route::get('edit/{shop}', [ShopController::class, 'edit'])->name('shops.edit');
+    Route::post('update/{shop}', [ShopController::class, 'update'])->name('shops.update');
+});
+
+Route::resource('images', ImageController::class)->middleware(['auth:owners', 'verified'])->except('show');
+
+Route::resource('products', ProductController::class)->middleware(['auth:owners', 'verified'])->except('show');
+
 // auth.php相当
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-                ->name('register');
+    // Route::get('register', [RegisteredUserController::class, 'create'])
+    //             ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    // Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');

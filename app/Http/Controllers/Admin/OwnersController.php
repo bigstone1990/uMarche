@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Log;
+use App\Models\Shop;
 
 class OwnersController extends Controller
 {
@@ -77,11 +79,26 @@ class OwnersController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            DB::transaction(function () use($request) {
+                $owner = Owner::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+                Shop::create([
+                    'owner_id' => $owner->id,
+                    'name' => '店名を入力してください',
+                    'information' => '',
+                    'filename' => '',
+                    'is_selling' => true,
+                ]);
+            }, 2);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            throw $th;
+        }
 
         return to_route('admin.owners.index')->with([
             'message' => '登録しました',
@@ -105,7 +122,8 @@ class OwnersController extends Controller
         $owner = Owner::findOrFail($id);
         // dd($owner);
         return Inertia::render('Admin/Owners/Edit', [
-            'owner' => $owner
+            'owner' => $owner,
+            'shop_name' => $owner->shop->name,
         ]);
     }
 

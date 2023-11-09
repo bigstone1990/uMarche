@@ -22,7 +22,7 @@ const showingNavigationDropdown = ref(false);
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('owner.dashboard')">
                                     オーナー用<ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                        class="block w-12 fill-current text-gray-800"
                                     />
                                 </Link>
                             </div>
@@ -31,6 +31,15 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('owner.dashboard')" :active="route().current('owner.dashboard')">
                                     オーナー用Dashboard
+                                </NavLink>
+                                <NavLink :href="route('owner.shops.index')" :active="route().current('owner.shops.index')">
+                                    店舗情報
+                                </NavLink>
+                                <NavLink :href="route('owner.images.index')" :active="route().current('owner.images.index')">
+                                    画像管理
+                                </NavLink>
+                                <NavLink :href="route('owner.products.index')" :active="route().current('owner.products.index')">
+                                    商品管理
                                 </NavLink>
                             </div>
                         </div>
@@ -114,6 +123,15 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('owner.dashboard')" :active="route().current('owner.dashboard')">
                             オーナー用Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('owner.shops.index')" :active="route().current('owner.shops.index')">
+                            店舗情報
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('owner.images.index')" :active="route().current('owner.images.index')">
+                            画像管理
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('owner.products.index')" :active="route().current('owner.products.index')">
+                            商品管理
                         </ResponsiveNavLink>
                     </div>
 
