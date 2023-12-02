@@ -18,8 +18,10 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@vue-stripe/vue-stripe": "^4.5.0",
         "date-fns": "^2.30.0",
         "dayjs": "^1.11.10",
-        "micromodal": "^0.4.10"
+        "micromodal": "^0.4.10",
+        "swiper": "^11.0.4"
     }
 }

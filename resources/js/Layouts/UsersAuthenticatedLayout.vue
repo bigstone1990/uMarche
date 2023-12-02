@@ -20,17 +20,20 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('user.dashboard')">
+                                <Link :href="route('user.items.index')">
                                     ユーザー用<ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                        class="block w-12 fill-current text-gray-800"
                                     />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('user.dashboard')" :active="route().current('user.dashboard')">
-                                    ユーザー用Dashboard
+                                <NavLink :href="route('user.items.index')" :active="route().current('user.items.index')">
+                                    ホーム
+                                </NavLink>
+                                <NavLink :href="route('user.cart.index')" :active="route().current('user.cart.index')">
+                                    カートを表示
                                 </NavLink>
                             </div>
                         </div>
@@ -112,8 +115,11 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('user.dashboard')" :active="route().current('user.dashboard')">
-                            ユーザー用Dashboard
+                        <ResponsiveNavLink :href="route('user.items.index')" :active="route().current('user.items.index')">
+                            ホーム
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('user.cart.index')" :active="route().current('user.cart.index')">
+                            カートを表示
                         </ResponsiveNavLink>
                     </div>
 

@@ -19,6 +19,9 @@ export default defineConfig({
                     base: null,
                     includeAbsolute: false,
                 },
+                compilerOptions: {
+                    isCustomElement: (tag) => (tag === 'swiper-container' || tag === 'swiper-slide')
+                },
             },
         }),
     ],
