@@ -58,3 +58,20 @@ storage/app/public/productsフォルダ内に
 ショップの画像を表示する場合は、
 storage/app/public/shopsフォルダを作成し、
 画像を保存してください。
+
+## section7の補足
+
+決済のテストとしてstripeを利用しています。
+必要な場合は .env にstripeの情報を追記してください。
+
+## section8の補足
+
+メールのテストとしてmailtrapを利用しています。
+必要な場合は .env にmailtrapの情報を追記してください。
+(講座内で解説しています。)
+
+メール処理には時間がかかるので、
+キューを使用しています。
+
+必要な場合は sail artisan queue:workで
+ワーカーを立ち上げて動作確認するようにしてください。
